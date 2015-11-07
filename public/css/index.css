@@ -1,0 +1,77 @@
+nav.not-transparent{
+	background-color: white;
+	border-color: white;
+	padding: 10px;
+}
+
+nav.transparent{
+	background-color: transparent;
+	border-color: transparent;
+}
+
+.navbar-default a.navbar-brand{
+	color: #EC6952;
+	font-weight: bold;
+}
+
+.navbar-default .navbar-nav li.active a{
+	color: #EC6952;
+	background-color: transparent;
+	font-weight: bold;
+}
+
+a.create_account{
+    border: 2px solid #EC6952;
+	border-radius: 10px;
+}
+
+nav.navbar-default{
+	padding-top: 10px;
+}	
+
+span.attention{
+	font-size: 46px;
+	color: white;
+	font-weight: bold;
+}	
+
+a.btn-cta-primary, .btn-cta-primary {
+    background: #ec6952 none repeat scroll 0 0;
+    border: 2px solid #ec6952;
+    color: #fff;	
+    margin-top: 40px;	
+    font-size: 18px;
+}
+
+#headerwrap .container{
+	margin-top: 80px;
+}
+
+#about_us_div{
+    position: absolute;
+    top: 320px;
+    left: 200px;
+    background-color: white;
+}
+
+footer.footer{
+	background-color: #253340;
+	color: grey;
+}
+
+.btn-ghost{
+	opacity: 0.6px;
+	border: 1px solid #fff;
+}
+
+.btn-ghost:hover{
+	color: white;
+}
+
+i{
+	margin-right: 10px;
+}
+
+.navbar-default .navbar-nav > li > a {
+	color: white;
+}

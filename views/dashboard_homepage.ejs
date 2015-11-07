@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Dashboard Home page</title>
+        
+        <link href="../css/bootstrap.css" rel="stylesheet">
+        <link href="../css/admin.css" rel="stylesheet">
+        <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+        <div id="wrapper">
+
+
+                <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="">Smart Track</a>
+                    </div>
+                    <!-- Top Menu Items -->
+                    <ul class="nav navbar-right top-nav">
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Admin <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                                </li>                        
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav side-nav sidebar">
+                            <li class="dashboard_homepage active">
+                                <a href="/dashboard_homepage"><i class="fa fa-fw fa-home"></i> Home</a>
+                            </li>
+                            <li class="map_page">
+                                <a href="/map_page"><i class="fa fa-fw fa-map-marker"></i> Map</a>
+                            </li>
+                            <li class="report">
+                                <a href="/report"><i class="fa fa-fw fa-book"></i> Report</a>
+                            </li>
+                            <li class="guard_track">
+                                <a href="/guard_track"><i class="fa fa-fw fa-male"></i> Guard track</a>
+                            </li>
+                            <li class="guard_list">
+                                <a href="/guard_list"><i class="fa fa-fw fa-user"></i> Guard list</a>
+                            </li>
+                            <li class="checkpoints">
+                                <a href="/checkpoints"><i class="fa fa-fw fa-user"></i> Check points</a>
+                            </li>
+                            <li class="property_list">
+                                <a href="/propertyList"><i class="fa fa-fw fa-user"></i> Property list</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </nav>
+            
+            <div id="page-wrapper" class="manual-height">
+                <div class="container-fluid">                    
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 class="page-header">
+                                Dashboard <small>Statistics Overview</small>
+                            </h1>                            
+                        </div>
+                    </div>          <!-- /.row -->
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="pieChart1" class="text-center"></div>                                
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="pieChart2" class="text-center"></div>                                
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="linechart3" class="text-center">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>        
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>        
+        <script src="../js/bootstrap.min.js"></script>        
+        
+        <script>
+
+        //******************************** PIE for type of reports ***************************//
+
+        var pCount= 0, mCount= 0,tCount= 0,oCount= 0;
+        var openCount= 0, closeCount= 0, inProCount=0;
+
+
+        $.ajax({
+            url: '/ajax_report',
+            type: 'GET',
+            error: function() {
+                  
+            },
+            success: function(data) {
+                
+                pCount = data['reports']['pCount']; 
+                mCount = data['reports']['mCount'];
+                tCount = data['reports']['tCount'];
+                oCount = data['reports']['oCount'];
+
+                openCount = data['reports']['openCount'];
+                closeCount = data['reports']['closeCount'];
+                inProCount = data['reports']['inProCount'];                
+                charts();
+            }
+           
+        });
+
+        var charts = function(){
+            $(function () {
+                $('#pieChart1').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Types of Report'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: "Brands",
+                    colorByPoint: true,
+                    data: [{
+                        name: "Maintenance",
+                        y: mCount
+                    }, {
+                        name: "Parking Violation",
+                        y: pCount
+                    }, {
+                        name: "Tresspassing",
+                        y: tCount
+                    }, {
+                        name: "Others",
+                        y: oCount
+                    }]
+                }]
+            });
+        });
+
+
+        //******************************* PIE property status wise ******************************//
+
+        $(function () {
+                $('#pieChart2').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Status'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: "Brands",
+                    colorByPoint: true,
+                    data: [{
+                        name: "Close",
+                        y: closeCount
+                    }, {
+                        name: "Open",
+                        y: openCount                    
+                    }, {
+                        name: "In Process",
+                        y: inProCount
+                    }]
+                }]
+            });
+        });
+
+    //********************* Line Chart ****************************//
+
+        $(function () {
+        $('#linechart3').highcharts({
+            chart: {
+                zoomType: 'xy'
+            },
+            title: {
+                text: 'Average Monthly Temperature and Rainfall in Tokyo'
+            },
+            subtitle: {
+                text: 'Source: WorldClimate.com'
+            },
+            xAxis: [{
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                crosshair: true
+            }],
+            yAxis: [{ // Primary yAxis
+                labels: {
+                    format: '{value}°C',
+                    style: {
+                        color: Highcharts.getOptions().colors[1]
+                    }
+                },
+                title: {
+                    text: 'Temperature',
+                    style: {
+                        color: Highcharts.getOptions().colors[1]
+                    }
+                }
+            }, { // Secondary yAxis
+                title: {
+                    text: 'Rainfall',
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                labels: {
+                    format: '{value} mm',
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                opposite: true
+            }],
+            tooltip: {
+                shared: true
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                x: 120,
+                verticalAlign: 'top',
+                y: 100,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+            },
+            series: [{
+                name: 'Rainfall',
+                type: 'column',
+                yAxis: 1,
+                data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+                tooltip: {
+                    valueSuffix: ' mm'
+                }
+
+            }, {
+                name: 'Temperature',
+                type: 'spline',
+                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+                tooltip: {
+                    valueSuffix: '°C'
+                }
+            }]
+        });
+});
+
+}
+
+</script>
+    </body>
+
+</html>
