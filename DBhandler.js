@@ -5,9 +5,9 @@ var moment = require('moment');
 moment().format();
 
 var connection = mysql.createConnection({
-	host : 'projectdemo.cq3u8fhrnzsr.us-west-1.rds.amazonaws.com',
+	host : '',
 	user : 'ProjectDemo',
-	password : 'ProjectDemo',
+	password : '',
 	port : '3306',
 	database : 'ProjectDemo'
 });
