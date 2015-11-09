@@ -11,10 +11,10 @@ AWS.config.update({
 var dynamodb = new AWS.DynamoDB();
 
 var connection = mysql.createConnection({
-	  host     : 'projectdemo.cq3u8fhrnzsr.us-west-1.rds.amazonaws.com',
+	  host     : '',
 	  user     : 'ProjectDemo',
 	  port     : '3306',
-	  password : 'ProjectDemo',
+	  password : '',
 	  database : 'ProjectDemo'
 	});
 
